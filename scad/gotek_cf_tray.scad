@@ -1,4 +1,7 @@
 // Gotek Floppy Emulator - 5.25" bay
+// Written by Michael Berry <michaelaberry@gmail.com>
+model_version = "v1.3.0";
+
 // Features: 
 //  - CF / IDE Card mount
 //  - 1.2" OLED Display
@@ -67,6 +70,7 @@ translate([offset_tray_x-42,offset_tray_y-tray_y+3,15-offset_tray_z]) {
 translate([offset_tray_x/4, offset_tray_y - tray_y-6, 28 - offset_tray_z]) {
     //rotaryEncoder();
 }
+echo("Model Version",model_version);
 
 //Port cut-outs
 module frontFace() {
@@ -413,8 +417,7 @@ module prism(l, w, h) {
             [0, 4, 5, 1],
             [0, 3, 4],
             [5, 2, 1]
-        ],
-        convexity = 3
+        ]
     );
 
     /*
@@ -466,15 +469,4 @@ module prism(l, w, h) {
     );
     */
 }
-
-// Written by Michael Berry <michaelaberry@gmail.com>
-//
-// To the extent possible under law, the author(s) have dedicated all
-// copyright and related and neighboring rights to this software to the
-// public domain worldwide. This software is distributed without any
-// warranty.
-//
-// You should have received a copy of the CC0 Public Domain
-// Dedication along with this software.
-// If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
-//echo(version = version());
+echo("OpenSCAD Version:", version());
