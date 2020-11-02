@@ -36,7 +36,7 @@ difference() {
     plasticSaverBase();
 
     // Cutouts for ports and stuff
-    frontFace();
+    frontFace();    
 }
 
 //Add supports
@@ -45,6 +45,7 @@ mirror([tray_x, 0, 0]) backSupport();
 
 cfBoardSupport();
 gotekBoardSupport();
+lcdSupports();
 
 
 
@@ -55,7 +56,7 @@ gotekBoardSupport();
 translate([53 - offset_tray_x, 29 - offset_tray_y + 1, 10 - offset_tray_z]) {
     //cfAdapterBoard();
 }
-translate([52 - offset_tray_x, 36 - offset_tray_y - 31, offset_tray_z-13]) {
+translate([52 - offset_tray_x, 36 - offset_tray_y - 31, offset_tray_z-14]) {
     //lcd();
 }
 
@@ -87,13 +88,13 @@ module frontFace() {
     }
     
     //Buttons (3mm diameter)
-    translate([offset_tray_x-14, offset_tray_y - tray_y+4, offset_tray_z-tray_z+3+12+6]) {
+    translate([offset_tray_x-15, offset_tray_y - tray_y+4, offset_tray_z-tray_z+3+12+6]) {
         rotate([90, 0, 0]) cylinder(r = 2.5, h = 10, center = false, $fn=15);
     }    
-    translate([offset_tray_x-7, offset_tray_y - tray_y+4, offset_tray_z-tray_z+3+12+6]) {
+    translate([offset_tray_x-8, offset_tray_y - tray_y+4, offset_tray_z-tray_z+3+12+6]) {
         rotate([90, 0, 0]) cylinder(r = 2.5, h = 10, center = false, $fn=15);
     }    
-    translate([offset_tray_x-7, offset_tray_y - tray_y+4, offset_tray_z-tray_z+3+12+13]) {
+    translate([offset_tray_x-8, offset_tray_y - tray_y+4, offset_tray_z-tray_z+3+12+13]) {
         rotate([90, 0, 0]) cylinder(r = 2, h = 10, center = false, , $fn=15);
     }
     
@@ -102,19 +103,63 @@ module frontFace() {
         union() {
             //shaft
             rotate([90, 0, 0]) cylinder(r = 3.625, h = 10, center = true, $fn=20);
-            translate([0,2,0]) rotate([90, 0, 0]) cylinder(r = 4.125, h = 2, center = true, $fn=20);
+            translate([0,2.25,0]) rotate([90, 0, 0]) #cylinder(r = 4.625, h = 2.5, center = true, $fn=20);
             
             //index blocks
-            translate([0,2,0]) cube([12,2,3], center = true);
+            translate([0,2.25,0]) #cube([12,2.5,3], center = true);
             
             //index tab
-            rotate([0, 90, 0]) translate([-6.4,2,-1.75]) cube([1,5,3], center = false);
+            rotate([0, 90, 0]) translate([-6.5,2,-1.75]) #cube([1,2,3], center = false);
         }
     }
 }
 
 
 //Supports / Brackets / Mounts "Library"
+module lcdSupports() {
+    lcd_x = 27.5;
+    lcd_y = 3;
+    lcd_z = 28;
+    
+    mount_x = 4.1;
+    mount_y = 1.75;
+    mount_z = 3.5;
+    
+    translate([52 - offset_tray_x, offset_tray_y - tray_y + lcd_y+mount_y-0.25, 29 - offset_tray_z-1]) {
+        
+        //Bottom Right (from the front)
+        translate([lcd_x/2-mount_x/2,-lcd_y/2+mount_y/2,-lcd_z/2+mount_z/2-0.5]) {
+            difference() {
+                cube([mount_x,mount_y,mount_z], center = true);
+                translate ([0.5,0,0]) rotate([90, 0, 0]) #cylinder(r = 1, h = 3, center = true);
+            }
+        }
+        
+        //Top Right (from the front)
+        translate([lcd_x/2-mount_x/2,-lcd_y/2+mount_y/2,lcd_z/2-mount_z/2]) {
+            difference() {
+                cube([mount_x,mount_y,mount_z], center = true);
+                translate ([0.5,0,0]) rotate([90, 0, 0]) #cylinder(r = 1, h = 3, center = true);
+            }
+        }
+        
+        //Top Left (from the front)
+        translate([-lcd_x/2+mount_x/2,-lcd_y/2+mount_y/2,lcd_z/2-mount_z/2]) {
+            difference() {
+                cube([mount_x,mount_y,mount_z], center = true);
+                translate ([-0.5,0,0]) rotate([90, 0, 0]) #cylinder(r = 1, h = 3, center = true);
+            }
+        }
+        
+        //Bottom Left from the front)
+        translate([-lcd_x/2+mount_x/2,-lcd_y/2+mount_y/2,-lcd_z/2+mount_z/2-0.5]) {
+            difference() {
+                cube([mount_x,mount_y,mount_z], center = true);
+                translate ([-0.5,0,0]) rotate([90, 0, 0]) #cylinder(r = 1, h = 3, center = true);
+            }
+        }
+    }
+}
 module cfBoardSupport() {
     // "subtract" 27x37x10 from each side
     translate([3-offset_tray_x, 3-offset_tray_y, offset_tray_z-39]) {
@@ -128,23 +173,23 @@ module cfBoardSupport() {
 module gotekBoardSupport() {
     // "subtract" 27x37x10 from each side
     translate([offset_tray_x-7.5, 19-offset_tray_y, offset_tray_z-39]) {
-        cylinder(r = 4, h = 12, center = false);
+        cylinder(r = 4, h = 12, center = false, $fn=30);
     }
     
     translate([offset_tray_x-7.5, 72-offset_tray_y, offset_tray_z-39]) {
-        cylinder(r = 4, h = 12, center = false);
+        cylinder(r = 4, h = 12, center = false, $fn=30);
     }
     
     translate([offset_tray_x-7.5, 103-offset_tray_y, offset_tray_z-39]) {
-        cylinder(r = 4, h = 12, center = false);
+        cylinder(r = 4, h = 12, center = false, $fn=30);
     }
     
     translate([offset_tray_x-57, 72-offset_tray_y, offset_tray_z-39]) {
-        cylinder(r = 4, h = 12, center = false);
+        cylinder(r = 4, h = 12, center = false, $fn=30);
     }
     
     translate([offset_tray_x-57, 103-offset_tray_y, offset_tray_z-39]) {
-        cylinder(r = 4, h = 12, center = false);
+        cylinder(r = 4, h = 12, center = false, $fn=30);
     }
 }
 module backSupport() {
@@ -209,9 +254,22 @@ module plasticSaverBase() {
 //Fitment model "library"
 module lcd() {
     //screen 26x14 (x3)
+    lcd_x = 27.5;
+    lcd_y = 3;
+    lcd_z = 28;
+    
+    mount_x = 4.1;
+    mount_y = 1.75;
+    mount_z = 3.5;
+    
     difference() {
-        cube([27.5, 3, 27], center = true);
-        cube([23.5, 5, 12.5], center = true);
+        cube([lcd_x, lcd_y, lcd_z], center = true);
+        translate([0,0,1]) cube([23.5, 5, 12.5], center = true);
+        
+        translate([lcd_x/2-mount_x/2,-lcd_y/2+mount_y/2,-lcd_z/2+mount_z/2]) #cube([mount_x,mount_y,mount_z], center = true);
+        translate([lcd_x/2-mount_x/2,-lcd_y/2+mount_y/2,lcd_z/2-mount_z/2]) #cube([mount_x,mount_y,mount_z], center = true);
+        translate([-lcd_x/2+mount_x/2,-lcd_y/2+mount_y/2,lcd_z/2-mount_z/2]) #cube([mount_x,mount_y,mount_z], center = true);
+        translate([-lcd_x/2+mount_x/2,-lcd_y/2+mount_y/2,-lcd_z/2+mount_z/2]) #cube([mount_x,mount_y,mount_z], center = true);
     }
 }
 module cfAdapterBoard() {
@@ -294,7 +352,7 @@ module rotaryEncoder() {
 module cheeseHoles(d, l, h=5) {
     //make a stretched cylinder with diameter 'd' and length 'l'
     union(){
-        cylinder(r = d/2, h = h, center = false);
+        cylinder(r = d/2, h = h, center = false, $fn=25);
         translate([-l,-(d/2),0]) cube([l,d,h], center = false);
         translate([-l,0,0]) cylinder(r = d/2, h = h, center = false);
     }
