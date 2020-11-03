@@ -1,6 +1,6 @@
 // Gotek Floppy Emulator - 5.25" bay
 // Written by Michael Berry <michaelaberry@gmail.com>
-model_version = "v1.3.0";
+model_version = "v1.4.0";
 
 // Features: 
 //  - CF / IDE Card mount
@@ -23,7 +23,7 @@ offset_tray_z = tray_z / 2;
 
 //Render the main tray
 difference() {
-    color([0.9,0.9,0.9]) cube([tray_x, tray_y, tray_z], center = true);
+    color([0.9, 0.9, 0.9]) cube([tray_x, tray_y, tray_z], center = true);
     // Carve out the inner tray
     translate([0, 3, 3]) {
         cube([tray_x - 6, tray_y, tray_z], center = true);
@@ -39,7 +39,7 @@ difference() {
     plasticSaverBase();
 
     // Cutouts for ports and stuff
-    frontFace();    
+    frontFace();
 }
 
 //Add supports
@@ -59,18 +59,18 @@ lcdSupports();
 translate([53 - offset_tray_x, 29 - offset_tray_y + 1, 10 - offset_tray_z]) {
     //cfAdapterBoard();
 }
-translate([52 - offset_tray_x, 36 - offset_tray_y - 31, offset_tray_z-14]) {
+translate([52 - offset_tray_x, 36 - offset_tray_y - 31, offset_tray_z - 14]) {
     //lcd();
 }
 
-translate([offset_tray_x-42,offset_tray_y-tray_y+3,15-offset_tray_z]) {
+translate([offset_tray_x - 42, offset_tray_y - tray_y + 3, 15 - offset_tray_z]) {
     //gotekBoard();
 }
 
-translate([offset_tray_x/4, offset_tray_y - tray_y-6, 28 - offset_tray_z]) {
+translate([offset_tray_x / 4, offset_tray_y - tray_y - 6, 28 - offset_tray_z]) {
     //rotaryEncoder();
 }
-echo("Model Version",model_version);
+echo("Model Version", model_version);
 
 //Port cut-outs
 module frontFace() {
@@ -83,37 +83,37 @@ module frontFace() {
     translate([52 - offset_tray_x + 6, offset_tray_y - tray_y - 0.5, 29 - offset_tray_z]) {
         //cube([26, 6, 14], center = true);
         //Screen size 14mm tall, 26mm wide (Scale opening to account for bezel)
-        rotate([90,0,180]) trapezoidalPyramid(19.5, 31.5, 4);
+        rotate([90, 0, 180]) trapezoidalPyramid(19.5, 31.5, 4);
     }
-    
+
     //USB Port (15mm x 8mm)
-    translate([offset_tray_x-41, offset_tray_y - tray_y-1, 16-offset_tray_z]) {
+    translate([offset_tray_x - 41, offset_tray_y - tray_y - 1, 16 - offset_tray_z]) {
         cube([16, 8, 9], center = false);
     }
-    
+
     //Buttons (3mm diameter)
-    translate([offset_tray_x-15, offset_tray_y - tray_y+4, offset_tray_z-tray_z+3+12+6]) {
-        rotate([90, 0, 0]) cylinder(r = 2.5, h = 10, center = false, $fn=15);
-    }    
-    translate([offset_tray_x-8, offset_tray_y - tray_y+4, offset_tray_z-tray_z+3+12+6]) {
-        rotate([90, 0, 0]) cylinder(r = 2.5, h = 10, center = false, $fn=15);
-    }    
-    translate([offset_tray_x-8, offset_tray_y - tray_y+4, offset_tray_z-tray_z+3+12+13]) {
-        rotate([90, 0, 0]) cylinder(r = 2, h = 10, center = false, , $fn=15);
+    translate([offset_tray_x - 15, offset_tray_y - tray_y + 4, offset_tray_z - tray_z + 3 + 12 + 6]) {
+        rotate([90, 0, 0]) cylinder(r = 2.5, h = 10, center = false, $fn = 15);
     }
-    
+    translate([offset_tray_x - 8, offset_tray_y - tray_y + 4, offset_tray_z - tray_z + 3 + 12 + 6]) {
+        rotate([90, 0, 0]) cylinder(r = 2.5, h = 10, center = false, $fn = 15);
+    }
+    translate([offset_tray_x - 8, offset_tray_y - tray_y + 4, offset_tray_z - tray_z + 3 + 12 + 13]) {
+        rotate([90, 0, 0]) cylinder(r = 2, h = 10, center = false, , $fn = 15);
+    }
+
     //Rotary Encoder
-    translate([offset_tray_x/4, offset_tray_y - tray_y, 28 - offset_tray_z]) {
+    translate([offset_tray_x / 4, offset_tray_y - tray_y, 28 - offset_tray_z]) {
         union() {
             //shaft
-            rotate([90, 0, 0]) cylinder(r = 3.625, h = 10, center = true, $fn=20);
-            translate([0,2.25,0]) rotate([90, 0, 0]) #cylinder(r = 4.625, h = 2.5, center = true, $fn=20);
-            
+            rotate([90, 0, 0]) cylinder(r = 3.625, h = 10, center = true, $fn = 20);
+            translate([0, 2.25, 0]) rotate([90, 0, 0])# cylinder(r = 4.625, h = 2.5, center = true, $fn = 20);
+
             //index blocks
-            translate([0,2.25,0]) #cube([12,2.5,3], center = true);
-            
+            translate([0, 2.25, 0])# cube([12, 2.5, 3], center = true);
+
             //index tab
-            rotate([0, 90, 0]) translate([-6.5,2,-1.75]) #cube([1,2,3], center = false);
+            //rotate([0, 90, 0]) translate([-6.5, 2, -1.75])# cube([1, 2, 3], center = false);
         }
     }
 }
@@ -124,76 +124,76 @@ module lcdSupports() {
     lcd_x = 27.5;
     lcd_y = 3;
     lcd_z = 28;
-    
+
     mount_x = 4.1;
     mount_y = 1.75;
     mount_z = 3.5;
-    
-    translate([52 - offset_tray_x, offset_tray_y - tray_y + lcd_y+mount_y-0.25, 29 - offset_tray_z-1]) {
-        
+
+    translate([52 - offset_tray_x, offset_tray_y - tray_y + lcd_y + mount_y - 0.25, 29 - offset_tray_z - 1]) {
+
         //Bottom Right (from the front)
-        translate([lcd_x/2-mount_x/2,-lcd_y/2+mount_y/2,-lcd_z/2+mount_z/2-0.5]) {
+        translate([lcd_x / 2 - mount_x / 2, -lcd_y / 2 + mount_y / 2, -lcd_z / 2 + mount_z / 2 - 0.5]) {
             difference() {
-                cube([mount_x,mount_y,mount_z], center = true);
-                translate ([0.5,0,0]) rotate([90, 0, 0]) #cylinder(r = 1, h = 3, center = true);
+                cube([mount_x, mount_y, mount_z], center = true);
+                translate([0, 0, 0]) rotate([90, 0, 0])# cylinder(r = 1, h = 3, center = true);
             }
         }
-        
+
         //Top Right (from the front)
-        translate([lcd_x/2-mount_x/2,-lcd_y/2+mount_y/2,lcd_z/2-mount_z/2]) {
+        translate([lcd_x / 2 - mount_x / 2, -lcd_y / 2 + mount_y / 2, lcd_z / 2 - mount_z / 2 - 0.5]) {
             difference() {
-                cube([mount_x,mount_y,mount_z], center = true);
-                translate ([0.5,0,0]) rotate([90, 0, 0]) #cylinder(r = 1, h = 3, center = true);
+                cube([mount_x, mount_y, mount_z+1], center = true);
+                translate([0, 0, 0]) rotate([90, 0, 0])# cylinder(r = 1, h = 3, center = true);
             }
         }
-        
+
         //Top Left (from the front)
-        translate([-lcd_x/2+mount_x/2,-lcd_y/2+mount_y/2,lcd_z/2-mount_z/2]) {
+        translate([-lcd_x / 2 + mount_x / 2, -lcd_y / 2 + mount_y / 2, lcd_z / 2 - mount_z / 2 - 0.5]) {
             difference() {
-                cube([mount_x,mount_y,mount_z], center = true);
-                translate ([-0.5,0,0]) rotate([90, 0, 0]) #cylinder(r = 1, h = 3, center = true);
+                cube([mount_x, mount_y, mount_z+1], center = true);
+                translate([-0.5, 0, 0]) rotate([90, 0, 0])# cylinder(r = 1, h = 3, center = true);
             }
         }
-        
+
         //Bottom Left from the front)
-        translate([-lcd_x/2+mount_x/2,-lcd_y/2+mount_y/2,-lcd_z/2+mount_z/2-0.5]) {
+        translate([-lcd_x / 2 + mount_x / 2, -lcd_y / 2 + mount_y / 2, -lcd_z / 2 + mount_z / 2 - 0.5]) {
             difference() {
-                cube([mount_x,mount_y,mount_z], center = true);
-                translate ([-0.5,0,0]) rotate([90, 0, 0]) #cylinder(r = 1, h = 3, center = true);
+                cube([mount_x, mount_y, mount_z], center = true);
+                translate([-0.5, 0, 0]) rotate([90, 0, 0])# cylinder(r = 1, h = 3, center = true);
             }
         }
     }
 }
 module cfBoardSupport() {
     // "subtract" 27x37x10 from each side
-    translate([3-offset_tray_x, 3-offset_tray_y, offset_tray_z-39]) {
-        cube([8, 35, 1], center = false);
+    translate([3 - offset_tray_x, 3 - offset_tray_y, offset_tray_z - 39]) {
+        cube([7, 35, 1], center = false);
     }
 
-    translate([offset_tray_x-54, 3-offset_tray_y, offset_tray_z-39]) {
+    translate([offset_tray_x - 52, 3 - offset_tray_y, offset_tray_z - 39]) {
         cube([8, 35, 1], center = false);
     }
 }
 module gotekBoardSupport() {
     // "subtract" 27x37x10 from each side
-    translate([offset_tray_x-7.5, 19-offset_tray_y, offset_tray_z-39]) {
-        cylinder(r = 4, h = 12, center = false, $fn=30);
+    translate([offset_tray_x - 7.5, 19 - offset_tray_y, offset_tray_z - 39]) {
+        cylinder(r = 4, h = 12, center = false, $fn = 30);
     }
-    
-    translate([offset_tray_x-7.5, 72-offset_tray_y, offset_tray_z-39]) {
-        cylinder(r = 4, h = 12, center = false, $fn=30);
+
+    translate([offset_tray_x - 7.5, 72 - offset_tray_y, offset_tray_z - 39]) {
+        cylinder(r = 4, h = 12, center = false, $fn = 30);
     }
-    
-    translate([offset_tray_x-7.5, 103-offset_tray_y, offset_tray_z-39]) {
-        cylinder(r = 4, h = 12, center = false, $fn=30);
+
+    translate([offset_tray_x - 7.5, 103 - offset_tray_y, offset_tray_z - 39]) {
+        cylinder(r = 4, h = 12, center = false, $fn = 30);
     }
-    
-    translate([offset_tray_x-57, 72-offset_tray_y, offset_tray_z-39]) {
-        cylinder(r = 4, h = 12, center = false, $fn=30);
+
+    translate([offset_tray_x - 57, 72 - offset_tray_y, offset_tray_z - 39]) {
+        cylinder(r = 4, h = 12, center = false, $fn = 30);
     }
-    
-    translate([offset_tray_x-57, 103-offset_tray_y, offset_tray_z-39]) {
-        cylinder(r = 4, h = 12, center = false, $fn=30);
+
+    translate([offset_tray_x - 57, 103 - offset_tray_y, offset_tray_z - 39]) {
+        cylinder(r = 4, h = 12, center = false, $fn = 30);
     }
 }
 module backSupport() {
@@ -224,36 +224,36 @@ module plasticSaverSides() {
     translate([offset_tray_x - tray_x - 1, 20 - offset_tray_y, offset_tray_z - 15]) {
         cube([11, tray_y - 10, 16], center = false);
     }
-    
-    translate([offset_tray_x - tray_x-1, offset_tray_y-13, offset_tray_z-32]) rotate([90,90,90]) cheeseHoles(8,10);
-    translate([offset_tray_x - tray_x-1, offset_tray_y-24, offset_tray_z-32]) rotate([90,90,90]) cheeseHoles(8,10);
-    translate([offset_tray_x - tray_x-1, offset_tray_y-35, offset_tray_z-32]) rotate([90,90,90]) cheeseHoles(8,10);
-    translate([offset_tray_x - tray_x-1, offset_tray_y-46, offset_tray_z-32]) rotate([90,90,90]) cheeseHoles(8,10);
-    translate([offset_tray_x - tray_x-1, offset_tray_y-57, offset_tray_z-32]) rotate([90,90,90]) cheeseHoles(8,10);
-    translate([offset_tray_x - tray_x-1, offset_tray_y-68, offset_tray_z-32]) rotate([90,90,90]) cheeseHoles(8,10);
-    translate([offset_tray_x - tray_x-1, offset_tray_y-79, offset_tray_z-32]) rotate([90,90,90]) cheeseHoles(8,10);
-    translate([offset_tray_x - tray_x-1, offset_tray_y-94, offset_tray_z-32]) rotate([90,90,90]) cheeseHoles(8,10);
-    translate([offset_tray_x - tray_x-1, offset_tray_y-105, offset_tray_z-32]) rotate([90,90,90]) cheeseHoles(8,10);
-    translate([offset_tray_x - tray_x-1, offset_tray_y-116, offset_tray_z-32]) rotate([90,90,90]) cheeseHoles(8,10);
-    translate([offset_tray_x - tray_x-1, offset_tray_y-127, offset_tray_z-32]) rotate([90,90,90]) cheeseHoles(8,14);
+
+    translate([offset_tray_x - tray_x - 1, offset_tray_y - 13, offset_tray_z - 32]) rotate([90, 90, 90]) cheeseHoles(8, 10);
+    translate([offset_tray_x - tray_x - 1, offset_tray_y - 24, offset_tray_z - 32]) rotate([90, 90, 90]) cheeseHoles(8, 10);
+    translate([offset_tray_x - tray_x - 1, offset_tray_y - 35, offset_tray_z - 32]) rotate([90, 90, 90]) cheeseHoles(8, 10);
+    translate([offset_tray_x - tray_x - 1, offset_tray_y - 46, offset_tray_z - 32]) rotate([90, 90, 90]) cheeseHoles(8, 10);
+    translate([offset_tray_x - tray_x - 1, offset_tray_y - 57, offset_tray_z - 32]) rotate([90, 90, 90]) cheeseHoles(8, 10);
+    translate([offset_tray_x - tray_x - 1, offset_tray_y - 68, offset_tray_z - 32]) rotate([90, 90, 90]) cheeseHoles(8, 10);
+    translate([offset_tray_x - tray_x - 1, offset_tray_y - 79, offset_tray_z - 32]) rotate([90, 90, 90]) cheeseHoles(8, 10);
+    translate([offset_tray_x - tray_x - 1, offset_tray_y - 94, offset_tray_z - 32]) rotate([90, 90, 90]) cheeseHoles(8, 10);
+    translate([offset_tray_x - tray_x - 1, offset_tray_y - 105, offset_tray_z - 32]) rotate([90, 90, 90]) cheeseHoles(8, 10);
+    translate([offset_tray_x - tray_x - 1, offset_tray_y - 116, offset_tray_z - 32]) rotate([90, 90, 90]) cheeseHoles(8, 10);
+    translate([offset_tray_x - tray_x - 1, offset_tray_y - 127, offset_tray_z - 32]) rotate([90, 90, 90]) cheeseHoles(8, 14);
 
     // Fancy angled front
-    translate([offset_tray_x - tray_x-1, 20 - offset_tray_y, offset_tray_z - 15]) {
+    translate([offset_tray_x - tray_x - 1, 20 - offset_tray_y, offset_tray_z - 15]) {
         //cube([11,tray_y-10,16], center=false);
         rotate([90, 0, 0]) prism(6, 17, 19);
 
     }
 }
 module plasticSaverBase() {
-    translate([offset_tray_x-29, offset_tray_y-30, offset_tray_z-tray_z-1]) 
-      rotate([0,0,90]) cheeseHoles(18,80);
-    translate([offset_tray_x-75, offset_tray_y-30, offset_tray_z-tray_z-1]) 
-      rotate([0,0,90]) cheeseHoles(18,80);
-    translate([offset_tray_x-100, offset_tray_y-30, offset_tray_z-tray_z-1]) 
-      rotate([0,0,90]) cheeseHoles(18,80);
-    translate([offset_tray_x-125, offset_tray_y-30, offset_tray_z-tray_z-1]) 
-      rotate([0,0,90]) cheeseHoles(18,80);
-}    
+    translate([offset_tray_x - 29, offset_tray_y - 30, offset_tray_z - tray_z - 1])
+    rotate([0, 0, 90]) cheeseHoles(18, 80);
+    translate([offset_tray_x - 75, offset_tray_y - 30, offset_tray_z - tray_z - 1])
+    rotate([0, 0, 90]) cheeseHoles(18, 80);
+    translate([offset_tray_x - 100, offset_tray_y - 30, offset_tray_z - tray_z - 1])
+    rotate([0, 0, 90]) cheeseHoles(18, 80);
+    translate([offset_tray_x - 125, offset_tray_y - 30, offset_tray_z - tray_z - 1])
+    rotate([0, 0, 90]) cheeseHoles(18, 80);
+}
 
 //Fitment model "library"
 module lcd() {
@@ -261,19 +261,19 @@ module lcd() {
     lcd_x = 27.5;
     lcd_y = 3;
     lcd_z = 28;
-    
+
     mount_x = 4.1;
     mount_y = 1.75;
     mount_z = 3.5;
-    
+
     difference() {
         cube([lcd_x, lcd_y, lcd_z], center = true);
-        translate([0,0,1]) cube([23.5, 5, 12.5], center = true);
-        
-        translate([lcd_x/2-mount_x/2,-lcd_y/2+mount_y/2,-lcd_z/2+mount_z/2]) #cube([mount_x,mount_y,mount_z], center = true);
-        translate([lcd_x/2-mount_x/2,-lcd_y/2+mount_y/2,lcd_z/2-mount_z/2]) #cube([mount_x,mount_y,mount_z], center = true);
-        translate([-lcd_x/2+mount_x/2,-lcd_y/2+mount_y/2,lcd_z/2-mount_z/2]) #cube([mount_x,mount_y,mount_z], center = true);
-        translate([-lcd_x/2+mount_x/2,-lcd_y/2+mount_y/2,-lcd_z/2+mount_z/2]) #cube([mount_x,mount_y,mount_z], center = true);
+        translate([0, 0, 1]) cube([23.5, 5, 12.5], center = true);
+
+        translate([lcd_x / 2 - mount_x / 2, -lcd_y / 2 + mount_y / 2, -lcd_z / 2 + mount_z / 2])# cube([mount_x, mount_y, mount_z], center = true);
+        translate([lcd_x / 2 - mount_x / 2, -lcd_y / 2 + mount_y / 2, lcd_z / 2 - mount_z / 2])# cube([mount_x, mount_y, mount_z], center = true);
+        translate([-lcd_x / 2 + mount_x / 2, -lcd_y / 2 + mount_y / 2, lcd_z / 2 - mount_z / 2])# cube([mount_x, mount_y, mount_z], center = true);
+        translate([-lcd_x / 2 + mount_x / 2, -lcd_y / 2 + mount_y / 2, -lcd_z / 2 + mount_z / 2])# cube([mount_x, mount_y, mount_z], center = true);
     }
 }
 module cfAdapterBoard() {
@@ -302,100 +302,97 @@ module cfAdapterBoard() {
     }
     // "cf slot" - 27 from each side, 47 wide, 7 tall, 2 from bottom
     translate([0, -35, 0]) {
-        color ([0.3,0,0]) cube([45, 18, 6], center = true);
+        color([0.3, 0, 0]) cube([45, 18, 6], center = true);
     }
 
 }
 
 
 module gotekBoard() {
-// 38mm x 120mm x 17mm  +  20mm x 61mm x 10mm
-  difference() {
-    union() {
-        //main circuit board
-        cube([39,120,2], center = false);
-        translate([-20,59,0]) cube([20,61,2], center = false);
-        
-        //usb port
-        translate([2,-1,2]) color([0.6,0.6,0.6]) cube([14, 14, 7], center = false);
-        translate([3,-9,3]) color([0,0,0.2]) cube([12, 10, 5], center = false);
-        
-        //Up button
-        translate([27.5,3,6]) rotate([90, 0, 0]) color([0,0,0]) cylinder(r = 1.5, h = 10, center = false, $fn=15);
-        translate([27.5,3,6]) cube([7, 6, 7], center = true);
-        
-        //down button
-        translate([34.5,3,6]) rotate([90, 0, 0]) color([0,0,0]) cylinder(r = 1.5, h = 10, center = false, $fn=15);
-        translate([34.5,3,6]) cube([7, 6, 7], center = true);
-        
-        //power LED
-        translate([34.5,3,13]) rotate([90, 0, 0]) color([0,1,0]) cylinder(r = 1.5, h = 7, center = false, $fn=12);
+    // 38mm x 120mm x 17mm  +  20mm x 61mm x 10mm
+    difference() {
+        union() {
+            //main circuit board
+            cube([39, 120, 2], center = false);
+            translate([-20, 59, 0]) cube([20, 61, 2], center = false);
+
+            //usb port
+            translate([2, -1, 2]) color([0.6, 0.6, 0.6]) cube([14, 14, 7], center = false);
+            translate([3, -9, 3]) color([0, 0, 0.2]) cube([12, 10, 5], center = false);
+
+            //Up button
+            translate([27.5, 3, 6]) rotate([90, 0, 0]) color([0, 0, 0]) cylinder(r = 1.5, h = 10, center = false, $fn = 15);
+            translate([27.5, 3, 6]) cube([7, 6, 7], center = true);
+
+            //down button
+            translate([34.5, 3, 6]) rotate([90, 0, 0]) color([0, 0, 0]) cylinder(r = 1.5, h = 10, center = false, $fn = 15);
+            translate([34.5, 3, 6]) cube([7, 6, 7], center = true);
+
+            //power LED
+            translate([34.5, 3, 13]) rotate([90, 0, 0]) color([0, 1, 0]) cylinder(r = 1.5, h = 7, center = false, $fn = 12);
+        }
+        //mounting holes
+        translate([-16, 69, 0]) cylinder(r = 1.5, h = 12, center = true);
+        translate([-16, 100, 0]) cylinder(r = 1.5, h = 12, center = true);
+
+        translate([34, 69, 0]) cylinder(r = 1.5, h = 12, center = true);
+        translate([34, 100, 0]) cylinder(r = 1.5, h = 12, center = true);
+        translate([34, 17, 0]) cylinder(r = 1.5, h = 12, center = true);
     }
-    //mounting holes
-    translate([-16,69,0]) cylinder(r = 1.5, h = 12, center = true);
-    translate([-16,100,0]) cylinder(r = 1.5, h = 12, center = true);
-    
-    translate([34,69,0]) cylinder(r = 1.5, h = 12, center = true);
-    translate([34,100,0]) cylinder(r = 1.5, h = 12, center = true);
-    translate([34,17,0]) cylinder(r = 1.5, h = 12, center = true);
-  }  
 }
 module rotaryEncoder() {
     //12mm x 15mm x 7mm 
     //20mm shaft, 7mm diameter
     //12mm x 3mm x 2mm deep indexing cubes
-    
+
     union() {
-        translate([0,12,0]) cube([12, 7, 12], center = true);
+        translate([0, 12, 0]) cube([12, 7, 12], center = true);
         rotate([90, 0, 0]) cylinder(r = 3.25, h = 20, center = true);
-        translate([0,8,0]) cube([12,2,3], center = true);
-        translate([0,-3,0]) rotate([90, 0, 0]) color([0.3,0.3,0.3]) cylinder(r = 7.25, h = 15, center = true);
-    }    
+        translate([0, 8, 0]) cube([12, 2, 3], center = true);
+        translate([0, -3, 0]) rotate([90, 0, 0]) color([0.3, 0.3, 0.3]) cylinder(r = 7.25, h = 15, center = true);
+    }
 }
 //Shapes "library"
-module cheeseHoles(d, l, h=5) {
+module cheeseHoles(d, l, h = 5) {
     //make a stretched cylinder with diameter 'd' and length 'l'
-    union(){
-        cylinder(r = d/2, h = h, center = false, $fn=25);
-        translate([-l,-(d/2),0]) cube([l,d,h], center = false);
-        translate([-l,0,0]) cylinder(r = d/2, h = h, center = false);
+    union() {
+        cylinder(r = d / 2, h = h, center = false, $fn = 25);
+        translate([-l, -(d / 2), 0]) cube([l, d, h], center = false);
+        translate([-l, 0, 0]) cylinder(r = d / 2, h = h, center = false);
     }
 }
 module trapezoidalPyramid(l, w, d) {
     pitch = 0;
-    
+
     union() {
-        difference()
-        {
-            rotate([0,0,45])
-            cylinder(d1=sqrt(pow(l,2)*2), d2=pitch, h=10, $fn=4);
-           
-            translate([0,0,d])
-            linear_extrude(height=14)
-            square([l,l], center=true);
+        difference() {
+            rotate([0, 0, 45])
+            cylinder(d1 = sqrt(pow(l, 2) * 2), d2 = pitch, h = 10, $fn = 4);
+
+            translate([0, 0, d])
+            linear_extrude(height = 14)
+            square([l, l], center = true);
         }
-        
-        translate ([abs(l-w)/2,0,0]) {
-            difference()
-            {
-                rotate([0,0,45])
-                cylinder(d1=sqrt(pow(l,2)*2), d2=pitch, h=10, $fn=4);
-               
-                translate([0,0,d])
-                linear_extrude(height=14)
-                square([l,l], center=true);
+
+        translate([abs(l - w) / 2, 0, 0]) {
+            difference() {
+                rotate([0, 0, 45])
+                cylinder(d1 = sqrt(pow(l, 2) * 2), d2 = pitch, h = 10, $fn = 4);
+
+                translate([0, 0, d])
+                linear_extrude(height = 14)
+                square([l, l], center = true);
             }
         }
-        
-        translate ([abs(l-w),0,0]) {
-            difference()
-            {
-                rotate([0,0,45])
-                cylinder(d1=sqrt(pow(l,2)*2), d2=pitch, h=10, $fn=4);
-               
-                translate([0,0,d])
-                linear_extrude(height=14)
-                square([l,l], center=true);
+
+        translate([abs(l - w), 0, 0]) {
+            difference() {
+                rotate([0, 0, 45])
+                cylinder(d1 = sqrt(pow(l, 2) * 2), d2 = pitch, h = 10, $fn = 4);
+
+                translate([0, 0, d])
+                linear_extrude(height = 14)
+                square([l, l], center = true);
             }
         }
     }
