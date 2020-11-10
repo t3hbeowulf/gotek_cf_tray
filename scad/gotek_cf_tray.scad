@@ -13,6 +13,29 @@ model_version = "v1.4.0";
 // X - 148mm (148.7mm max)
 // Y - 138mm (flexible, min 136mm)
 
+/*
+TODO:
+Gotek
+- Move rear gotek supports forward. They're not even close to the holes
+- Move middle gotek supports forward by 2mm
+- Move rear gotek support backard by 2mm
+- Consider printing a raft for the gotek that links the support posts together and puts pins through the mount hols
+- Consider narrow supports with triagle braces rather than large circles
+- Consider a smaller power LED hole
+
+Rotary Encoder
+- move indexing cutout to a flushmount cylinder on the inside wall. (too much stem outside)
+- consider recessing the nut by 1mm to better flush the skirt of the knob
+
+CF Adapter
+- print support tabs with pins. (flexible mounting with/without screws)
+
+OLED
+- build a frame with captive side-walls and plastic pins
+- frame may be connected at the top with room for data pins
+
+*/
+
 tray_x = 148;
 tray_y = 138;
 tray_z = 42;
