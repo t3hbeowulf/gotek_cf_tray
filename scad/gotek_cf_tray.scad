@@ -1,6 +1,6 @@
 // Gotek Floppy Emulator - 5.25" bay
 // Written by Michael Berry <michaelaberry@gmail.com> and Joe Legeckis <thejml@gmail.com>
-model_version = "v1.7.1";
+model_version = "v1.7.3";
 
 // Features: 
 //  - CF / IDE Card mount
@@ -243,77 +243,47 @@ module cfBoardSupport(location, do_deletes) {
 
 module gotekBoardSupport(do_deletes) {
     support_diameter = 8;
-    support_height = 12;
+    support_height = 11.5;
     location = [offset_tray_x-7.5,21-offset_tray_y,offset_tray_z-tray_z+3];
 
     translate(location) {
         if (do_deletes==0) {
             color([0.0,0.7,1]) {
-                union() {
-                    difference() {
-                        union() {
-                            translate([-55,-20+front_thickness,0]) {
-                                cube([60,100,support_height], center=false);
-                            }
-                            rotate([0,0,180]) translate([45,-100-front_thickness,0]) prism(10,20,support_height);
-                            rotate([0,0,180]) translate([-5,-100-front_thickness,0]) prism(10,20,support_height);
+                difference() {
+                    union() {
+                        translate([-55,-8+front_thickness,0]) {
+                            cube([60,88,support_height], center=false);
                         }
-                        union() {
-                            translate([-45,-10+front_thickness,-1]) {
-                                cube([40,100,support_height+2], center=false);
-                            }
-                            translate([-65,-21+front_thickness,-1]) {
-                                cube([60,60,support_height+2], center=false);
-                            }
+                        rotate([0,0,180]) translate([45,-100-front_thickness,0]) prism(10,20,support_height);
+                        rotate([0,0,180]) translate([-5,-100-front_thickness,0]) prism(10,20,support_height);
+                    }
+                    union() {
+                        translate([-45,-10+front_thickness,-1]) {
+                            cube([40,100,support_height+2], center=false);
+                        }
+                        translate([-65,-17+front_thickness,-1]) {
+                            cube([60,60,support_height+2], center=false);
                         }
                     }
-                    // Front
-                    // translate([  0, 0, 0]) cylinder(d = support_diameter, h = support_height, $fn=36, center = false);
-                    // // Front: Add some extra supports against breakoff
-                    // rotate([0,0,0]) translate([  0, 0,0]) support_torus(support_diameter-1,3);
-
-                    // // Front mounting bump. Leaving it commented to better allow for sliding in buttons
-                    // //translate([  0, 0, 0]) cylinder(d = 2.75, h = 14, $fn=36, center = false);
-        
-                    // // Middle
-                    // translate([  0, 50, 0]) cylinder(d = support_diameter, h = support_height, $fn=36, center = false);
-                    // translate([-50, 50, 0]) cylinder(d = support_diameter, h = support_height, $fn=36, center = false);
-
-
-                    // // Middle: Add some extra supports against breakoff
-                    // rotate([0,0,0]) translate([  0,50,0]) support_torus(support_diameter-1,3);
-                    // rotate([0,0,0]) translate([-50,50,0]) support_torus(support_diameter-1,3);
-
-
-                    // // Back
-                    // translate([  0, 71, 0]) cylinder(d = support_diameter, h = support_height, $fn=36, center = false);
-                    // translate([-50, 71, 0]) cylinder(d = support_diameter, h = support_height, $fn=36, center = false);
-
-                    // // Back: Add some extra supports against breakoff
-                    // rotate([0,0,0]) translate([  0,71,0]) support_torus(support_diameter-1,3);
-                    // rotate([0,0,0]) translate([-50,71,0]) support_torus(support_diameter-1,3);
-
-                    // button test 17 to end of PCB, button sticks out 4 past that, so 21 from center of front hole
-                    //rotate([90,0,0]) translate([  0, 12, 0]) cylinder(r = 2, h = 21, $fn=36, center = false);
-                } //union
+                }
             } //color
         } else {
             //USB Port (15mm x 8mm)  [offset_tray_x_front - 41, offset_tray_y - tray_y, 16 - offset_tray_z]
-            // USB Port
-            translate([-31.7, -20.5, support_height+2]) {
-                color([1,0,0]) cube([14, 11, 9], center = false);
+            // USB Port 
+            translate([-32.2, -22.5, support_height+2]) {
+                color([1,0,0]) cube([15, 11, 9], center = false);
             }
 
             //Buttons (3mm diameter) XXX Fix These Locations Then re-enable the 'else'
             translate([   0,  -10.5, support_height+5]) {
-                rotate([90, 0, 0]) cylinder(r = 2.5, h = 10, center = false, $fn = 15);
+                rotate([90, 0, 0]) cylinder(r = 2.5, h = 12, center = false, $fn = 15);
             }
             translate([  -8,  -10.5, support_height+5]) {
-                rotate([90, 0, 0]) cylinder(r = 2.5, h = 10, center = false, $fn = 15);
+                rotate([90, 0, 0]) cylinder(r = 2.5, h = 12, center = false, $fn = 15);
             }
             // LED
             translate([   -0,  -10.5, support_height+12]) {
-                rotate([90, 0, 0]) cylinder(r = 2, h = 10, center = false, , $fn = 15);
+                rotate([90, 0, 0]) cylinder(r = 2, h = 12, center = false, , $fn = 15);
             }
 
             union() {
@@ -343,9 +313,10 @@ module rotaryEncoderSupport(front_thickness,do_deletes) {
             // translate([-support_width/2,front_thickness,-support_width/2]) {
             //     cube([support_width, shaft_screw_length-front_thickness, support_width], center = false);
             // }
+            color([0,1,0]) {
             rotate([-90,0,0]) translate([0,0,0.01]) cylinder(h=shaft_screw_length, d=support_width, $fn=36);
-            rotate([-90,0,0]) translate([0,0,front_thickness]) support_torus(support_width/2+front_thickness,front_thickness);
-        }
+            rotate([-90,0,0]) translate([0,0,front_thickness]) support_torus(support_width/2+front_thickness,shaft_screw_length-front_thickness);
+        } }
    } else {
         union() {
             translate([0,shaft_screw_length+1.1,0]) {
