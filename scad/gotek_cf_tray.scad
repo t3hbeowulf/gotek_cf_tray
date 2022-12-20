@@ -1,6 +1,6 @@
 // Gotek Floppy Emulator - 5.25" bay
 // Written by Michael Berry <michaelaberry@gmail.com> and Joe Legeckis <thejml@gmail.com>
-model_version = "v1.7.3";
+model_version = "v1.7.4";
 
 // Features: 
 //  - CF / IDE Card mount
@@ -19,12 +19,6 @@ Gotek:
   back to middle: 21mm middle to front: 50mm pegs: 2.75mm 
   peg spread: 50mm
   front peg to front panel: 17mm
-x Move rear gotek supports forward. They're not even close to the holes
-x Move middle gotek supports forward by 2mm
-x Move rear gotek support backward by 2mm
-- Consider printing a raft for the gotek that links the support posts together and puts pins through the mount hols
-- Consider narrow supports with triagle braces rather than large circles
-- Consider a smaller power LED hole
 
 Rotary Encoder
 - move indexing cutout to a flushmount cylinder on the inside wall. (too much stem outside)
@@ -84,13 +78,13 @@ difference() {
     
         // Rotary Encoder
         translate([offset_tray_x/4, offset_tray_y - tray_y, 28 - offset_tray_z]) {
-            rotaryEncoderSupport(front_thickness,0);
+            rotaryEncoderSupport(front_thickness,false);
         }
 
         // Support for CF, Gotek, LCD, and CF
-        gotekBoardSupport(0);
-        lcdSupports(0);
-        cfBoardSupport(cf_adapter_location,0); 
+        gotekBoardSupport(false);
+        lcdSupports(false);
+        cfBoardSupport(cf_adapter_location,false); 
     }
     union() {
         // Carve out the mounting holes
@@ -98,40 +92,20 @@ difference() {
         mirror([tray_x, 0, 0]) trayMount();
 
         translate([offset_tray_x / 4, offset_tray_y - tray_y, 28 - offset_tray_z]) {
-            rotaryEncoderSupport(front_thickness,1);
+            rotaryEncoderSupport(front_thickness,true);
         }
 
         // Save some plastic!
         plasticSaverSides();
         mirror([tray_x, 0, 0]) plasticSaverSides();
         plasticSaverBase();
-        cfBoardSupport(cf_adapter_location, 1);
-        gotekBoardSupport(1);
-        lcdSupports(1);
+        cfBoardSupport(cf_adapter_location, true);
+        gotekBoardSupport(true);
+        lcdSupports(true);
 
     }
 }
 
-
-
-//translate([offset_tray_x - tray_x-1, offset_tray_y-18, offset_tray_z-32]) rotate([90,90,90]) cheeseHoles(8,10);
-
-//Shape Debugging
-//Hardware Preview... remove to print.
-translate([53 - offset_tray_x, 29 - offset_tray_y + 1, 10 - offset_tray_z]) {
-    //cfAdapterBoard();
-}
-translate([52 - offset_tray_x, 36 - offset_tray_y - 31, offset_tray_z - 14]) {
-    //lcd();
-}
-
-translate([offset_tray_x - 42, offset_tray_y - tray_y + 3, 15 - offset_tray_z]) {
-    //gotekBoard();
-}
-
-translate([offset_tray_x / 4, offset_tray_y - tray_y - 6, 28 - offset_tray_z]) {
-    //rotaryEncoder();
-}
 echo("Model Version", model_version);
 
 //Supports / Brackets / Mounts "Library"
@@ -154,17 +128,9 @@ module lcdSupports(do_deletes) {
     // Screw holes z = 24mm
     // Screw Sizes = 2mm
     // https://www.amazon.com/gp/product/B09JWN8K99/ref=ewc_pr_img_1?smid=A1JX4L5CBS4J9K&th=1
-    if (do_deletes!=1) {
+    if (do_deletes==false) {
         color([0.8,0.4,0]) {
             translate([offset_tray_x-tray_x+37, offset_tray_y - tray_y + front_thickness+thickness, -7]) {
-                // rotate([90,0,0]) {
-                //     translate([support_diameter/2+0.4,support_diameter/2,0]) {
-                //         color([0.8,0.4,0]) translate([   0,  0,  0]) cylinder(h=thickness, d=support_diameter, $fn=36, center=false);
-                //         color([0.4,0.8,0]) translate([23.4,  0,  0]) cylinder(h=thickness, d=support_diameter, $fn=36, center=false);
-                //         // translate([   0, 24,  0]) cylinder(h=glass_thickness, d=support_diameter, $fn=36, center=false);
-                //         // translate([23.4, 24,  0]) cylinder(h=glass_thickness, d=support_diameter, $fn=36, center=false);
-                //     } 
-                // }
                 translate([0,0,0]) cube([overall_display_width,2,bottom_to_display],center = false); 
                 translate([overall_display_width,0-(thickness),0]) cube([2,thickness+2,bottom_to_display],center = false); 
                 translate([-2,0-(thickness),0]) cube([2,thickness+2,bottom_to_display],center = false); 
@@ -172,7 +138,7 @@ module lcdSupports(do_deletes) {
             }
         }
     }
-    if (do_deletes==1) {
+    if (do_deletes==true) {
         //LCD
         translate([51 - offset_tray_x + 6, offset_tray_y - tray_y - 0.5, 29 - offset_tray_z]) {
             //cube([26, 6, 14], center = true);
@@ -199,23 +165,13 @@ module cfBoardSupport(location, do_deletes) {
     cf_depth = 36.5;
     // Overall Placement
     translate(location) {
-        // Fake CF is 3mm up from botom of board... for Uncomment for Testing:
-
-
         color([0.8,0.65,0.5]) {
-            if (do_deletes==0) {
+            if (do_deletes==false) {
                 union() {
                     // Fake CF is 3mm up from botom of board... for Uncomment for Testing:
                     // CF is 43mm wide, sticks past the front of the PCB by 15mm out of 36.5mm deep and 3mm thick
                     // It's up 3mm from the bottom of the PCB. 
                     // Left to right, the CF starts at 28mm to 71mm out of 99mm PCB Width
-                    // translate([28,-15,3+support_height]) {
-                    //     color([0.1,0.1,0.1]) {
-                    //         cube([43, 36.5, 4], center = false);
-                    //     }
-                    // }
-
-                    // "subtract" 27x37x10 from each side
                     translate([0,0,0]) {
                         cube([support_width, 35, support_height], center = false);
                     }
@@ -247,7 +203,7 @@ module gotekBoardSupport(do_deletes) {
     location = [offset_tray_x-7.5,21-offset_tray_y,offset_tray_z-tray_z+3];
 
     translate(location) {
-        if (do_deletes==0) {
+        if (do_deletes==false) {
             color([0.0,0.7,1]) {
                 difference() {
                     union() {
@@ -308,7 +264,7 @@ module rotaryEncoderSupport(front_thickness,do_deletes) {
     shaft_diameter          = 7;
     support_width           = 12;
 
-    if (do_deletes==0) {
+    if (do_deletes==false) {
         union() {
             // translate([-support_width/2,front_thickness,-support_width/2]) {
             //     cube([support_width, shaft_screw_length-front_thickness, support_width], center = false);
